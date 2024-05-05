@@ -1,0 +1,12 @@
+C:\Users\Даниил\source\repos\Генеалогическое древо\Генеалогическое древо\bin\Debug\Генеалогическое древо.exe.config
+C:\Users\Даниил\source\repos\Генеалогическое древо\Генеалогическое древо\bin\Debug\Генеалогическое древо.exe
+C:\Users\Даниил\source\repos\Генеалогическое древо\Генеалогическое древо\bin\Debug\Генеалогическое древо.pdb
+C:\Users\Даниил\source\repos\Генеалогическое древо\Генеалогическое древо\obj\Debug\Генеалогическое древо.csproj.AssemblyReference.cache
+C:\Users\Даниил\source\repos\Генеалогическое древо\Генеалогическое древо\obj\Debug\Генеалогическое_древо.HumanForm.resources
+C:\Users\Даниил\source\repos\Генеалогическое древо\Генеалогическое древо\obj\Debug\Генеалогическое_древо.Properties.Resources.resources
+C:\Users\Даниил\source\repos\Генеалогическое древо\Генеалогическое древо\obj\Debug\Генеалогическое древо.csproj.GenerateResource.cache
+C:\Users\Даниил\source\repos\Генеалогическое древо\Генеалогическое древо\obj\Debug\Генеалогическое древо.csproj.CoreCompileInputs.cache
+C:\Users\Даниил\source\repos\Генеалогическое древо\Генеалогическое древо\obj\Debug\Генеалогическое древо.exe
+C:\Users\Даниил\source\repos\Генеалогическое древо\Генеалогическое древо\obj\Debug\Генеалогическое древо.pdb
+C:\Users\Даниил\source\repos\Генеалогическое древо\Генеалогическое древо\obj\Debug\Генеалогическое_древо.PeopleForm.resources
+C:\Users\Даниил\source\repos\Генеалогическое древо\Генеалогическое древо\obj\Debug\Генеалогическое_древо.EditForm.resources
