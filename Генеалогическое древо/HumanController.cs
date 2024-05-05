@@ -8,8 +8,12 @@ namespace Генеалогическое_древо
 {
     internal class HumanController
     {
+        // Список всех членов дерева семьи
         public List<Human> people;
+        // Основная форма
         public PeopleForm peopleForm;
+
+        // Конструктор контроллера
         public HumanController()
         {
             people = new List<Human>();

@@ -14,7 +14,9 @@ namespace Генеалогическое_древо
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+            // Создание объекта контроллера
             HumanController humanController = new HumanController();
+            // Запуск основной формы
             Application.Run(humanController.peopleForm);
         }
     }

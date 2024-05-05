@@ -14,11 +14,15 @@ namespace Генеалогическое_древо
 {
     public partial class EditForm : Form
     {
+        // Объект редактируемого человека
         Human _human;
-        string _firstName;
-        string _secondName;
-        string _thirdName;
-        DateTime _birthDate;
+
+        string _firstName;      // Введённое имя
+        string _secondName;     // Введённая фамилия
+        string _thirdName;      // Введённое отчество
+        DateTime _birthDate;    // Введённая дата рождения
+
+        // Конструктор формы
         internal EditForm(Human human)
         {
             InitializeComponent();
@@ -42,21 +46,25 @@ namespace Генеалогическое_древо
 
         }
 
+        // Изменение введённого имени
         private void textBox1_Enter(object sender, EventArgs e)
         {
             textBox1.Text = _secondName;
         }
 
+        // Изменение введённой фамилии
         private void textBox2_Enter(object sender, EventArgs e)
         {
             textBox2.Text = _firstName;
         }
 
+        // Изменение введённого отчества
         private void textBox3_Enter(object sender, EventArgs e)
         {
             textBox3.Text = _thirdName;
         }
 
+        // Изменение введённой даты рождения
         private void textBox4_Enter(object sender, EventArgs e)
         {
             textBox4.Text = _birthDate.ToString("dd.MM.yyyy");
@@ -83,6 +91,7 @@ namespace Генеалогическое_древо
                 textBox3.Text = _human.ThirdName;
         }
 
+        // Проверка корректности ввода даты рождения
         private void textBox4_Leave(object sender, EventArgs e)
         {
             DateTime dt;
@@ -104,6 +113,7 @@ namespace Генеалогическое_древо
             }
         }
 
+        // Подтверждение ввода
         private void button1_Click(object sender, EventArgs e)
         {
             if (_firstName == "" || _secondName == "")

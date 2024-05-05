@@ -16,11 +16,18 @@ namespace Генеалогическое_древо
 {
     public partial class PeopleForm : Form
     {
-        List<Human> _people;
+        // Список отображаемых людей
+        List<Human> _people;    
+        // Выбранный пользователем человек
         internal Human _chosen = null;
+        // Выбранный индекс человека
         int SelectedIndex = -1;
+        // Режим работы (основная форма - false, локальная форма - true)
         bool _mode;
+        // Необходимо ли подтверждение перед закрытием программы
         bool _confirm = false;
+        
+        // Конструктор формы
         internal PeopleForm(List<Human> people, bool mode)
         {
             InitializeComponent();
@@ -28,6 +35,8 @@ namespace Генеалогическое_древо
             dataGridView1.DataSource = null;
             dataGridView1.DataSource = _people.GetRange(0, _people.Count);
             _mode = mode;
+
+            // В случае локального списка, кнопки '+', '-', 'Файл' будут отключены
             if (_mode)
             {
                 файлToolStripMenuItem.Enabled = false;
@@ -44,18 +53,24 @@ namespace Генеалогическое_древо
 
         }
 
+        // Двойное нажатие на человека в списке
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            // Защита от сбоев
             if (e.RowIndex == -1 || _people.Count == 0)
                 return;
 
+            // Обработка в соответствии с выбранным режимом
             if (_mode)
             {
+                // Локальная форма - выбор человека
                 _chosen = _people[e.RowIndex];
                 Close();
             }
             else
             {
+                // Основная форма - открытие формы с информацией
+                // о человеке с возможностью её редактирования
                 Hide();
                 HumanForm humanForm = new HumanForm(_people, e.RowIndex);
                 humanForm.ShowDialog();
@@ -64,6 +79,7 @@ namespace Генеалогическое_древо
             }
         }
 
+        // Кнопка '+' - добавление нового человека в общий список
         private void button2_Click(object sender, EventArgs e)
         {
             Human newHuman = new Human();
@@ -78,6 +94,7 @@ namespace Генеалогическое_древо
             dataGridView1.DataSource = _people;
         }
 
+        // Кнопка '-' - удаление человека из общего списка
         private void button1_Click(object sender, EventArgs e)
         {
             if (_people.Count == 0)
@@ -100,6 +117,7 @@ namespace Генеалогическое_древо
             _confirm = true;
         }
 
+        // Обновление выбранного индекса после нажатия на человека
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex == -1)
@@ -107,10 +125,12 @@ namespace Генеалогическое_древо
             SelectedIndex = e.RowIndex;
         }
 
+        // Сохранение в txt файл
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
         {
             try
             {
+                // Вызов окна сохранения на компьютере
                 SaveFileDialog saveFileDialog1 = new SaveFileDialog();
                 saveFileDialog1.Filter = "(*.txt)|*.txt";
                 saveFileDialog1.Title = "Сохранить как TXT файл";
@@ -122,9 +142,11 @@ namespace Генеалогическое_древо
                 System.IO.FileStream fs = (System.IO.FileStream)saveFileDialog1.OpenFile();
                 TextWriter txt = new StreamWriter(fs);
 
+                // Присвоение индексов каждому человеку
                 for (int i = 0; i < _people.Count; i++)
                     _people[i].index = i;
 
+                // Сохранение информации о каждом человеке
                 for (int i = 0; i < _people.Count; i++)
                 {
                     txt.Write(_people[i].FirstName);
@@ -132,6 +154,7 @@ namespace Генеалогическое_древо
                     txt.Write('_' + _people[i].ThirdName);
                     txt.Write('_' + ((_people[i].Gender) ? "1" : "0"));
                     txt.Write('_' + _people[i].BirthDate.ToString("dd_MM_yyyy"));
+                    // Сохранение индексов детей в конце строки
                     for (int j = 0; j < _people[i].Children.Count; j++)
                         txt.Write('_' + _people[i].Children[j].index.ToString());
                     txt.Write('\n');
@@ -143,21 +166,26 @@ namespace Генеалогическое_древо
             }
             catch
             {
+                // В случае некорректного файла
+                // обрабатывается исключение
                 MessageBox.Show("Ошибка записи!");
             }
         }
 
+        // Открытие txt файла
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!confirm())
                 return;
 
+            // Данные сохраняются для возможности восстановления
             List<Human> peopleBack = new List<Human>(_people);
             Human chosenBack = _chosen;
             int indexBack = SelectedIndex;
 
             try
             {
+                // Вызов окна для выбора txt файла на компьютере
                 OpenFileDialog openFileDialog1 = new OpenFileDialog();
                 openFileDialog1.Filter = "(*.txt)|*.txt";
                 openFileDialog1.Title = "Открыть TXT файл";
@@ -174,10 +202,14 @@ namespace Генеалогическое_древо
                 _chosen = null;
                 SelectedIndex = -1;
 
+                // Текст из выбранного файла делится
+                // переносом строки и символом '_'
                 string[] separatorL = new string[] { "\n" };
                 string[] separatorW = new string[] { "_" };
                 foreach (string line in fileContent.Split(separatorL, StringSplitOptions.RemoveEmptyEntries))
                 {
+                    // Для каждой строки создаётся новый человек
+                    // с соответствующими этой строке данными
                     Human newHuman = new Human();
                     _people.Add(newHuman);
                     string[] strings = line.Split(separatorW, StringSplitOptions.None);
@@ -195,9 +227,12 @@ namespace Генеалогическое_древо
                         newHuman.BirthDate = dt;
                 }
 
+                // Вычисляются индексы всех людей
                 for (int i = 0; i < _people.Count; i++)
                     _people[i].index = i;
 
+                // Для каждого человека добавляются потомки/родители
+                // согласно индексам из файла
                 int index = 0;
                 foreach (string line in fileContent.Split(separatorL, StringSplitOptions.RemoveEmptyEntries))
                 {
@@ -253,6 +288,8 @@ namespace Генеалогическое_древо
             }
             catch
             {
+                // В случае ошибки обрабатывается
+                // исключение и данные восстанавливаются
                 _people = peopleBack;
                 _chosen = chosenBack;
                 SelectedIndex = indexBack;
@@ -268,6 +305,7 @@ namespace Генеалогическое_древо
 
         }
 
+        // Сброс всех данных (удаление общего списка людей)
         private void сбросToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (!confirm())
@@ -280,6 +318,8 @@ namespace Генеалогическое_древо
             _confirm = false;
         }
 
+        // Если есть несохранённые данные у пользователя спрашивается подтверждение
+        // перед сбросом/открытием нового файла/закрытием программы
         private bool confirm()
         {
             if (_confirm==false)
@@ -290,6 +330,7 @@ namespace Генеалогическое_древо
             return (confirmResult == DialogResult.Yes)? true : false;
         }
 
+        // Закрытие программы
         private void PeopleForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = (confirm())? false : true;

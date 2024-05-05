@@ -15,9 +15,11 @@ namespace Генеалогическое_древо
 {
     public partial class HumanForm : Form
     {
-        List<Human> _people;
-        Human _human;
-        int SelectedIndex = 0;
+        List<Human> _people;    // Общий список людей
+        Human _human;           // Выбранный человек
+        int SelectedIndex = 0;  // Индекс выбранного потомка
+
+        // Конструктор формы человека
         internal HumanForm(List<Human> people, int index)
         {
             InitializeComponent();
@@ -26,6 +28,7 @@ namespace Генеалогическое_древо
             updateInformation();
         }
 
+        // Обновление данных формы
         private void updateInformation()
         {
             label1.Text = "Ф: " + _human.SecondName;
@@ -53,6 +56,7 @@ namespace Генеалогическое_древо
 
         }
 
+        // Вызов формы редактирования человека
         private void button1_Click(object sender, EventArgs e)
         {
             Hide();
@@ -62,6 +66,7 @@ namespace Генеалогическое_древо
             Show();
         }
 
+        // Добавление потомка
         private void button2_Click(object sender, EventArgs e)
         {
             List<Human> newChildren = new List<Human>();
@@ -75,6 +80,7 @@ namespace Генеалогическое_древо
             newChildren.Remove(_human.Mother);
             newChildren.Remove(_human.Father);
 
+            // Вызов формы со списком всех возможных потомков
             PeopleForm newPeople = new PeopleForm(newChildren, true);
 
             newPeople.ShowDialog();
@@ -88,6 +94,7 @@ namespace Генеалогическое_древо
             updateInformation();
         }
 
+        // Удаление потомка с выбранным индексом
         private void button3_Click(object sender, EventArgs e)
         {
             if (_human.Children.Count == 0)
@@ -100,6 +107,7 @@ namespace Генеалогическое_древо
             updateInformation();
         }
 
+        // Обновление выбранного индекса
         private void dataGridView1_CellEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex == -1)
@@ -107,6 +115,7 @@ namespace Генеалогическое_древо
             SelectedIndex = e.RowIndex;
         }
 
+        // Выбор родителя
         private void dataGridView2_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             List<Human> newParent = new List<Human>();
